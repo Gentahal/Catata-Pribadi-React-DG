@@ -2,18 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import NoteList from './NoteList';
+import { getInitialData, showFormattedDate } from './ListData';
 
 const NoteApp = () => {
-  const [notes, setNotes] = useState([
-    {
-      id: 1,
-      title: "Babel",
-      body: "Babel merupakan tools open-source...",
-      archived: false,
-      createdAt: '2022-04-14T04:27:34.572Z'
-    }
-  ]);
-
+    
+  const [notes, setNotes] = useState(getInitialData());
   const [newNote, setNewNote] = useState({ title: '', body: '' });
   const [searchTerm, setSearchTerm] = useState('');
   const [characterLimit, setCharacterLimit] = useState(50);
@@ -25,8 +18,8 @@ const NoteApp = () => {
       id: +new Date(),
       title: newNote.title,
       body: newNote.body,
+      createdAt: moment().toISOString(),
       archived: false,
-      createdAt: moment().toISOString()
     };
 
     setNotes([...notes, newNoteData]);
@@ -100,6 +93,8 @@ const NoteApp = () => {
         <button onClick={handleSearch}>Cari</button>
       </label>
 
+      <h2>Daftar Catatan Saya</h2>
+      
       {/* Daftar catatan */}
       <NoteList
         notes={filteredNotes}
